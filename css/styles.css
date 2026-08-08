@@ -707,7 +707,7 @@ body.menu-open {
   min-height: calc(100svh - var(--nav-h));
   display: grid;
   place-items: center;
-  overflow: hidden;
+  overflow: visible;
   padding: 2rem 0 3.5rem;
   isolation: isolate;
   text-align: center;
@@ -854,11 +854,6 @@ body.menu-open {
 .legal-actions .btn-ghost:hover {
   background: color-mix(in srgb, var(--brand) 8%, #fff);
   color: var(--brand-dark) !important;
-}
-
-.form-container .form .button-container .send-button {
-  color: #ffffff !important;
-  font-family: var(--font);
 }
 
 .hero-brand {
@@ -1199,7 +1194,7 @@ html[data-lang="en"] .hero-brand .brand-name-ar {
 .page-hero {
   padding: 3.5rem 0 2rem;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .page-hero .hero-bg {
@@ -1359,20 +1354,26 @@ html[data-lang="ar"] .form-container .form .textarea:focus {
   flex-basis: 70%;
   background: var(--brand);
   padding: 0.75rem 0.85rem;
-  color: #fff;
+  color: #ffffff;
   text-align: center;
   font-weight: 800;
-  font-family: inherit;
+  font-family: var(--font);
   font-size: 1rem;
-  border: 1px solid transparent;
+  border: 1px solid var(--brand);
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
-.form-container .form .button-container .send-button:hover {
-  background: transparent;
-  border: 1px solid var(--brand);
+.form-container .form .button-container .send-button:hover,
+.form-container .form .button-container .send-button:focus-visible {
+  background: #ffffff;
+  border-color: var(--brand);
   color: var(--brand);
+}
+
+.form-container .form .button-container .send-button:hover span,
+.form-container .form .button-container .send-button:focus-visible span {
+  color: inherit;
 }
 
 .form-container .form .button-container .reset-button-container {
@@ -1575,6 +1576,14 @@ html[data-lang="ar"] .form-container .form .textarea:focus {
 
   .hero-ctas .btn {
     flex: 1;
+  }
+}
+
+@media (max-height: 720px) {
+  .hero {
+    min-height: 0;
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
   }
 }
 

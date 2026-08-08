@@ -26,8 +26,6 @@ Open http://localhost:5173
 
 Messages from `contact.html` are delivered to **waslha.app@gmail.com** via [FormSubmit](https://formsubmit.co).
 
-**First-time setup:** submit the form once, then open the inbox for `waslha.app@gmail.com` and click the FormSubmit activation link. After that, every submission arrives as email.
-
 ## Build
 
 ```bash

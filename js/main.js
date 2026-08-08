@@ -76,9 +76,19 @@ if ('IntersectionObserver' in window) {
         }
       });
     },
-    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.01, rootMargin: '0px 0px -8px 0px' }
   );
   revealEls.forEach((el) => io.observe(el));
+  // Ensure above-the-fold content shows even when DevTools shrinks the viewport
+  requestAnimationFrame(() => {
+    revealEls.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('is-visible');
+        io.unobserve(el);
+      }
+    });
+  });
 } else {
   revealEls.forEach((el) => el.classList.add('is-visible'));
 }
@@ -92,6 +102,9 @@ if (form) {
   const errorEl = form.querySelector('[data-form-error]');
   const sendBtn = form.querySelector('[data-send-btn]');
 
+  const t = (ar, en) =>
+    (document.documentElement.getAttribute('data-lang') || 'ar') === 'en' ? en : ar;
+
   const setSending = (sending) => {
     if (!sendBtn) return;
     sendBtn.disabled = sending;
@@ -102,12 +115,22 @@ if (form) {
     if (en) en.textContent = sending ? 'Sending…' : 'Send';
   };
 
-  const showStatus = (kind) => {
+  const showStatus = (kind, message) => {
     successEl?.classList.toggle('is-shown', kind === 'success');
     if (errorEl) {
-      errorEl.hidden = kind !== 'error';
-      errorEl.classList.toggle('is-shown', kind === 'error');
+      const show = kind === 'error';
+      errorEl.hidden = !show;
+      errorEl.classList.toggle('is-shown', show);
+      if (show && message) errorEl.textContent = message;
     }
+  };
+
+  const openMailtoFallback = ({ name, email, roleLabel, message }) => {
+    const subject = encodeURIComponent(`Waslha contact — ${roleLabel || 'General'}`);
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\nRole: ${roleLabel}\n\n${message}`
+    );
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   form.addEventListener('submit', async (e) => {
@@ -127,7 +150,10 @@ if (form) {
 
     if (!name || !email || !roleValue || !message) {
       form.reportValidity?.();
-      showStatus('error');
+      showStatus(
+        'error',
+        t('املأ كل الحقول المطلوبة.', 'Please fill in all required fields.')
+      );
       return;
     }
 
@@ -136,28 +162,29 @@ if (form) {
     setSending(true);
 
     try {
+      const payload = new FormData();
+      payload.append('name', name);
+      payload.append('email', email);
+      payload.append('role', roleLabel);
+      payload.append('message', message);
+      payload.append('_replyto', email);
+      payload.append('_subject', `Waslha contact — ${roleLabel || 'General'}`);
+      payload.append('_template', 'table');
+      payload.append('_captcha', 'false');
+
       const res = await fetch(CONTACT_ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          role: roleLabel,
-          message,
-          _replyto: email,
-          _subject: `Waslha contact — ${roleLabel || 'General'}`,
-          _template: 'table',
-          _captcha: 'false'
-        })
+        headers: { Accept: 'application/json' },
+        body: payload
       });
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json().catch(() => ({}));
-      if (data.success === 'false' || data.success === false) {
-        throw new Error(data.message || 'Send failed');
+      const serverMsg = String(data.message || '');
+      const failed =
+        !res.ok || data.success === 'false' || data.success === false;
+
+      if (failed) {
+        throw new Error(serverMsg || `HTTP ${res.status}`);
       }
 
       form.reset();
@@ -168,7 +195,14 @@ if (form) {
       });
       showStatus('success');
     } catch {
-      showStatus('error');
+      showStatus(
+        'error',
+        t(
+          'تعذّر الإرسال عبر الموقع. جاري فتح تطبيق البريد لإرسال الرسالة يدويًا…',
+          'Couldn’t send from the site. Opening your email app as a fallback…'
+        )
+      );
+      openMailtoFallback({ name, email, roleLabel, message });
     } finally {
       setSending(false);
     }
@@ -202,7 +236,14 @@ function mountHeroStroke() {
 mountHeroStroke();
 
 let resizeTimer;
+let lastStrokeWidth = window.innerWidth;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(mountHeroStroke, 220);
+  resizeTimer = setTimeout(() => {
+    const w = window.innerWidth;
+    // Ignore height-only changes (e.g. opening DevTools docked to the bottom)
+    if (Math.abs(w - lastStrokeWidth) < 40) return;
+    lastStrokeWidth = w;
+    mountHeroStroke();
+  }, 220);
 });
