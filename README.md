@@ -26,6 +26,8 @@ Open http://localhost:5173
 
 Messages from `contact.html` are delivered to **waslha.app@gmail.com** via [FormSubmit](https://formsubmit.co).
 
+On Vercel, submissions go through `/api/contact` (serverless) to avoid browser CORS issues.
+
 ## Build
 
 ```bash

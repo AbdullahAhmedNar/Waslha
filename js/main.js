@@ -94,7 +94,12 @@ if ('IntersectionObserver' in window) {
 }
 
 const CONTACT_EMAIL = 'waslha.app@gmail.com';
-const CONTACT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
+const isLocalHost =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1';
+const CONTACT_ENDPOINT = isLocalHost
+  ? `https://formsubmit.co/ajax/${CONTACT_EMAIL}`
+  : '/api/contact';
 
 const form = document.querySelector('[data-contact-form]');
 if (form) {
@@ -123,14 +128,6 @@ if (form) {
       errorEl.classList.toggle('is-shown', show);
       if (show && message) errorEl.textContent = message;
     }
-  };
-
-  const openMailtoFallback = ({ name, email, roleLabel, message }) => {
-    const subject = encodeURIComponent(`Waslha contact — ${roleLabel || 'General'}`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nRole: ${roleLabel}\n\n${message}`
-    );
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   form.addEventListener('submit', async (e) => {
@@ -162,20 +159,24 @@ if (form) {
     setSending(true);
 
     try {
-      const payload = new FormData();
-      payload.append('name', name);
-      payload.append('email', email);
-      payload.append('role', roleLabel);
-      payload.append('message', message);
-      payload.append('_replyto', email);
-      payload.append('_subject', `Waslha contact — ${roleLabel || 'General'}`);
-      payload.append('_template', 'table');
-      payload.append('_captcha', 'false');
+      const payload = {
+        name,
+        email,
+        role: roleLabel,
+        message,
+        _replyto: email,
+        _subject: `Waslha contact — ${roleLabel || 'General'}`,
+        _template: 'table',
+        _captcha: 'false'
+      };
 
       const res = await fetch(CONTACT_ENDPOINT, {
         method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: payload
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify(payload)
       });
 
       const data = await res.json().catch(() => ({}));
@@ -198,11 +199,10 @@ if (form) {
       showStatus(
         'error',
         t(
-          'تعذّر الإرسال عبر الموقع. جاري فتح تطبيق البريد لإرسال الرسالة يدويًا…',
-          'Couldn’t send from the site. Opening your email app as a fallback…'
+          `تعذّر الإرسال. حاول مرة أخرى أو راسلنا على ${CONTACT_EMAIL}`,
+          `Couldn’t send. Try again or email ${CONTACT_EMAIL}`
         )
       );
-      openMailtoFallback({ name, email, roleLabel, message });
     } finally {
       setSending(false);
     }
