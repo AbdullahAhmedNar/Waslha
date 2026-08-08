@@ -94,12 +94,7 @@ if ('IntersectionObserver' in window) {
 }
 
 const CONTACT_EMAIL = 'waslha.app@gmail.com';
-const isLocalHost =
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1';
-const CONTACT_ENDPOINT = isLocalHost
-  ? `https://formsubmit.co/ajax/${CONTACT_EMAIL}`
-  : '/api/contact';
+const CONTACT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
 
 const form = document.querySelector('[data-contact-form]');
 if (form) {
@@ -159,24 +154,20 @@ if (form) {
     setSending(true);
 
     try {
-      const payload = {
-        name,
-        email,
-        role: roleLabel,
-        message,
-        _replyto: email,
-        _subject: `Waslha contact — ${roleLabel || 'General'}`,
-        _template: 'table',
-        _captcha: 'false'
-      };
+      const payload = new FormData();
+      payload.append('name', name);
+      payload.append('email', email);
+      payload.append('role', roleLabel);
+      payload.append('message', message);
+      payload.append('_replyto', email);
+      payload.append('_subject', `Waslha contact — ${roleLabel || 'General'}`);
+      payload.append('_template', 'table');
+      payload.append('_captcha', 'false');
 
       const res = await fetch(CONTACT_ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify(payload)
+        headers: { Accept: 'application/json' },
+        body: payload
       });
 
       const data = await res.json().catch(() => ({}));
@@ -185,6 +176,16 @@ if (form) {
         !res.ok || data.success === 'false' || data.success === false;
 
       if (failed) {
+        if (/activat/i.test(serverMsg)) {
+          showStatus(
+            'error',
+            t(
+              'نطاق الموقع محتاج تفعيل مرة واحدة: افتح waslha.app@gmail.com واضغط Activate Form (تحقق من السبام)، ثم أعد الإرسال.',
+              'This domain needs a one-time activation: open waslha.app@gmail.com, click Activate Form (check spam), then try again.'
+            )
+          );
+          return;
+        }
         throw new Error(serverMsg || `HTTP ${res.status}`);
       }
 
