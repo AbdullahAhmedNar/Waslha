@@ -22,11 +22,9 @@ npm run dev
 
 Open http://localhost:5173
 
-## Contact form
+## Contact
 
-Messages from `contact.html` are delivered to **waslha.app@gmail.com** via [FormSubmit](https://formsubmit.co).
-
-Each new domain (localhost, Vercel, custom domain) needs a one-time **Activate Form** click from the inbox of `waslha.app@gmail.com`.
+`contact.html` shows the support email **waslha.app@gmail.com**. Clicking it opens Gmail compose directly.
 
 ## Build
 

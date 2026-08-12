@@ -64,7 +64,7 @@ if (menuBtn && mobileNav) {
 }
 
 const revealEls = document.querySelectorAll(
-  '.hero-copy, .section-head, .audience-item, .step, .feature, .contact-panel, .form-container, .legal-card, .reveal'
+  '.hero-copy, .section-head, .audience-item, .step, .feature, .contact-panel, .contact-direct, .legal-card, .reveal'
 );
 if ('IntersectionObserver' in window) {
   const io = new IntersectionObserver(
@@ -91,123 +91,6 @@ if ('IntersectionObserver' in window) {
   });
 } else {
   revealEls.forEach((el) => el.classList.add('is-visible'));
-}
-
-const CONTACT_EMAIL = 'waslha.app@gmail.com';
-const CONTACT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
-
-const form = document.querySelector('[data-contact-form]');
-if (form) {
-  const successEl = form.querySelector('[data-form-success]');
-  const errorEl = form.querySelector('[data-form-error]');
-  const sendBtn = form.querySelector('[data-send-btn]');
-
-  const t = (ar, en) =>
-    (document.documentElement.getAttribute('data-lang') || 'ar') === 'en' ? en : ar;
-
-  const setSending = (sending) => {
-    if (!sendBtn) return;
-    sendBtn.disabled = sending;
-    sendBtn.classList.toggle('is-sending', sending);
-    const ar = sendBtn.querySelector('[lang="ar"]');
-    const en = sendBtn.querySelector('[lang="en"]');
-    if (ar) ar.textContent = sending ? 'جاري الإرسال…' : 'إرسال';
-    if (en) en.textContent = sending ? 'Sending…' : 'Send';
-  };
-
-  const showStatus = (kind, message) => {
-    successEl?.classList.toggle('is-shown', kind === 'success');
-    if (errorEl) {
-      const show = kind === 'error';
-      errorEl.hidden = !show;
-      errorEl.classList.toggle('is-shown', show);
-      if (show && message) errorEl.textContent = message;
-    }
-  };
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    showStatus(null);
-
-    const name = form.querySelector('#name')?.value?.trim() || '';
-    const email = form.querySelector('#mail, #email')?.value?.trim() || '';
-    const roleSelect = form.querySelector('#role');
-    const roleLabel =
-      roleSelect?.selectedOptions?.[0]?.textContent?.trim() ||
-      roleSelect?.value ||
-      '';
-    const roleValue = roleSelect?.value || '';
-    const message = form.querySelector('#message')?.value?.trim() || '';
-    const honey = form.querySelector('[name="_gotcha"]')?.value || '';
-
-    if (!name || !email || !roleValue || !message) {
-      form.reportValidity?.();
-      showStatus(
-        'error',
-        t('املأ كل الحقول المطلوبة.', 'Please fill in all required fields.')
-      );
-      return;
-    }
-
-    if (honey) return;
-
-    setSending(true);
-
-    try {
-      const payload = new FormData();
-      payload.append('name', name);
-      payload.append('email', email);
-      payload.append('role', roleLabel);
-      payload.append('message', message);
-      payload.append('_replyto', email);
-      payload.append('_subject', `Waslha contact — ${roleLabel || 'General'}`);
-      payload.append('_template', 'table');
-      payload.append('_captcha', 'false');
-
-      const res = await fetch(CONTACT_ENDPOINT, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: payload
-      });
-
-      const data = await res.json().catch(() => ({}));
-      const serverMsg = String(data.message || '');
-      const failed =
-        !res.ok || data.success === 'false' || data.success === false;
-
-      if (failed) {
-        if (/activat/i.test(serverMsg)) {
-          showStatus(
-            'error',
-            t(
-              'نطاق الموقع محتاج تفعيل مرة واحدة: افتح waslha.app@gmail.com واضغط Activate Form (تحقق من السبام)، ثم أعد الإرسال.',
-              'This domain needs a one-time activation: open waslha.app@gmail.com, click Activate Form (check spam), then try again.'
-            )
-          );
-          return;
-        }
-        throw new Error(serverMsg || `HTTP ${res.status}`);
-      }
-
-      form.reset();
-      document.querySelectorAll('[data-role-select] option').forEach((opt) => {
-        const lang = document.documentElement.getAttribute('data-lang') || 'ar';
-        const label = opt.getAttribute(lang === 'ar' ? 'data-ar' : 'data-en');
-        if (label) opt.textContent = label;
-      });
-      showStatus('success');
-    } catch {
-      showStatus(
-        'error',
-        t(
-          `تعذّر الإرسال. حاول مرة أخرى أو راسلنا على ${CONTACT_EMAIL}`,
-          `Couldn’t send. Try again or email ${CONTACT_EMAIL}`
-        )
-      );
-    } finally {
-      setSending(false);
-    }
-  });
 }
 
 /* —— Hero StrokeText: Waslha writes on load —— */

@@ -6,7 +6,7 @@
     <title>تواصل معنا | Contact — وصلة Waslha</title>
     <meta
       name="description"
-      content="تواصل مع فريق وصلة للدعم أو طلبات الخصوصية. waslha.app@gmail.com"
+      content="تواصل مع فريق وصلة لأي استفسار أو شكوى عبر waslha.app@gmail.com"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -59,7 +59,12 @@
 
         <div class="nav-actions">
           <button type="button" class="lang-toggle" data-lang-toggle>EN</button>
-          <a class="btn btn-primary btn-sm header-cta" href="mailto:waslha.app@gmail.com">
+          <a
+            class="btn btn-primary btn-sm header-cta"
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=waslha.app@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span lang="ar">راسلنا</span>
             <span lang="en">Email us</span>
           </a>
@@ -121,7 +126,13 @@
           </nav>
           <div class="mobile-nav__foot">
             <button type="button" class="lang-toggle" data-lang-toggle>EN</button>
-            <a class="btn btn-primary" href="mailto:waslha.app@gmail.com" data-menu-close>
+            <a
+              class="btn btn-primary"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=waslha.app@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-menu-close
+            >
               <span lang="ar">راسلنا</span>
               <span lang="en">Email us</span>
             </a>
@@ -131,186 +142,74 @@
     </header>
 
     <main>
-      <section class="page-hero">
+      <section class="page-hero contact-hero">
         <div class="hero-bg" aria-hidden="true"></div>
         <div class="container">
-          <div class="reveal is-visible">
+          <div class="contact-direct reveal is-visible">
             <div class="hero-logo-wrap contact-logo">
               <img class="hero-logo" src="/img/logo.jpeg" alt="Waslha logo" width="96" height="96" />
             </div>
+
             <span class="eyebrow" lang="ar">تواصل معنا</span>
-            <span class="eyebrow" lang="en">Get in touch</span>
-            <h1 lang="ar">نحن هنا للمساعدة</h1>
-            <h1 lang="en">We’re here to help</h1>
-            <p lang="ar">
-              للدعم، الاستفسارات، أو طلبات الخصوصية — راسل فريق وصلة. المنتج هو تطبيق الموبايل؛ هذا الموقع يعرّف بك ويوصلك بسياساتنا.
+            <span class="eyebrow" lang="en">Contact us</span>
+
+            <h1 lang="ar">للتواصل معنا</h1>
+            <h1 lang="en">Get in touch</h1>
+
+            <p class="contact-direct__lead" lang="ar">
+              لتلقي أي استفسار أو شكاوى، أرسل عبر الإيميل التالي
             </p>
-            <p lang="en">
-              For support, questions, or privacy requests — reach the Waslha team. The product is the mobile app; this site introduces it and links to our policies.
+            <p class="contact-direct__lead" lang="en">
+              For any inquiry or complaint, send us via the email below
+            </p>
+
+            <div class="contact-pills">
+              <span class="contact-pill">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+                <span lang="ar">استفسار</span><span lang="en">Inquiry</span>
+              </span>
+              <span class="contact-pill">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v5c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V7l7-4z"/></svg>
+                <span lang="ar">شكوى</span><span lang="en">Complaint</span>
+              </span>
+              <span class="contact-pill">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
+                <span lang="ar">دعم</span><span lang="en">Support</span>
+              </span>
+            </div>
+
+            <a
+              class="email-card"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=waslha.app@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Gmail to email waslha.app@gmail.com"
+            >
+              <span class="email-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5v-11z"/>
+                  <path d="M5 7l7 5.5L19 7"/>
+                </svg>
+              </span>
+              <span class="email-card__body">
+                <span class="email-card__label" lang="ar">اضغط لفتح Gmail</span>
+                <span class="email-card__label" lang="en">Tap to open Gmail</span>
+                <span class="email-card__address">waslha.app@gmail.com</span>
+              </span>
+              <span class="email-card__arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+
+            <p class="contact-direct__hint" lang="ar">
+              بالنقر على الإيميل يُفتح Gmail مباشرة لإرسال رسالتك
+            </p>
+            <p class="contact-direct__hint" lang="en">
+              Clicking the email opens Gmail so you can write to us right away
             </p>
           </div>
         </div>
       </section>
-
-      <div class="container contact-layout">
-        <div class="form-container reveal is-visible">
-          <form class="form" data-contact-form novalidate>
-            <span class="heading">
-              <span lang="ar">تواصل معنا</span>
-              <span lang="en">Get in touch</span>
-            </span>
-
-            <!-- Honeypot — leave empty -->
-            <input
-              class="hp-field"
-              type="text"
-              name="_gotcha"
-              tabindex="-1"
-              autocomplete="off"
-              aria-hidden="true"
-            />
-
-            <input
-              class="input"
-              id="name"
-              name="name"
-              type="text"
-              required
-              autocomplete="name"
-              data-ph-ar="الاسم"
-              data-ph-en="Name"
-              placeholder="الاسم"
-            />
-            <input
-              class="input"
-              id="mail"
-              name="email"
-              type="email"
-              required
-              autocomplete="email"
-              data-ph-ar="البريد الإلكتروني"
-              data-ph-en="Email"
-              placeholder="البريد الإلكتروني"
-            />
-            <select id="role" name="role" class="input select" data-role-select required>
-              <option value="" data-ar="نوع الحساب" data-en="I am a…" disabled selected>نوع الحساب</option>
-              <option value="merchant" data-ar="تاجر" data-en="Merchant">تاجر</option>
-              <option value="customer" data-ar="زبون / عميل" data-en="Customer">زبون / عميل</option>
-              <option value="driver" data-ar="سائق" data-en="Driver">سائق</option>
-              <option value="other" data-ar="أخرى" data-en="Other">أخرى</option>
-            </select>
-            <textarea
-              class="textarea"
-              id="message"
-              name="message"
-              rows="10"
-              cols="30"
-              required
-              data-ph-ar="قل مرحباً"
-              data-ph-en="Say Hello"
-              placeholder="قل مرحباً"
-            ></textarea>
-
-            <div class="button-container">
-              <button type="submit" class="send-button" data-send-btn>
-                <span lang="ar">إرسال</span>
-                <span lang="en">Send</span>
-              </button>
-              <div class="reset-button-container">
-                <button type="reset" id="reset-btn" class="reset-button">
-                  <span lang="ar">إعادة</span>
-                  <span lang="en">Reset</span>
-                </button>
-              </div>
-            </div>
-
-            <p class="form-note">
-              <span lang="ar">أو راسلنا مباشرة: </span>
-              <span lang="en">Or email us directly: </span>
-              <a href="mailto:waslha.app@gmail.com">waslha.app@gmail.com</a>
-            </p>
-            <div class="form-success" role="status" data-form-success>
-              <span lang="ar">تم إرسال رسالتك بنجاح — سنرد قريبًا على بريدك.</span>
-              <span lang="en">Your message was sent — we’ll reply to your email soon.</span>
-            </div>
-            <div class="form-error" role="alert" data-form-error hidden>
-              <span lang="ar">تعذّر الإرسال. حاول مرة أخرى أو راسلنا على waslha.app@gmail.com</span>
-              <span lang="en">Couldn’t send. Try again or email waslha.app@gmail.com</span>
-            </div>
-          </form>
-        </div>
-
-        <aside class="contact-aside">
-          <div class="aside-block reveal">
-            <span class="ico ico-sm" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
-            </span>
-            <div>
-              <h3 lang="ar">البريد</h3>
-              <h3 lang="en">Email</h3>
-              <p><a href="mailto:waslha.app@gmail.com">waslha.app@gmail.com</a></p>
-            </div>
-          </div>
-
-          <div class="aside-block reveal">
-            <span class="ico ico-sm" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
-            </span>
-            <div>
-              <h3 lang="ar">السوق</h3>
-              <h3 lang="en">Market</h3>
-              <p lang="ar">الأردن</p>
-              <p lang="en">Jordan</p>
-            </div>
-          </div>
-
-          <div class="aside-block reveal">
-            <span class="ico ico-sm" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M8 4h9a2 2 0 0 1 2 2v14l-4-2-4 2-4-2-4 2V6a2 2 0 0 1 2-2h1"/><path d="M9 9h7M9 13h7"/></svg>
-            </span>
-            <div>
-              <h3 lang="ar">السياسات</h3>
-              <h3 lang="en">Policies</h3>
-              <p>
-                <a href="privacy.html">
-                  <span lang="ar">سياسة الخصوصية</span>
-                  <span lang="en">Privacy Policy</span>
-                </a>
-              </p>
-              <p style="margin-top: 0.35rem">
-                <a href="terms.html">
-                  <span lang="ar">الشروط والأحكام</span>
-                  <span lang="en">Terms of Service</span>
-                </a>
-              </p>
-            </div>
-          </div>
-
-          <div class="aside-block product-blurb reveal">
-            <span class="ico ico-sm" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M2 19a5 5 0 0 1 10 0M12 19a5 5 0 0 1 10 0"/><path d="M10 8h4"/></svg>
-            </span>
-            <div>
-              <h3>
-                <span class="brand-inline" lang="ar">ما هي وصلة؟</span>
-                <span class="brand-inline" lang="en">What is Waslha?</span>
-              </h3>
-              <p lang="ar">
-                تطبيق جوال يربط بين من يحتاج توصيل (تاجر أو زبون) وبين سائقين قريبين. تنشر طلب توصيل من نقطة إلى نقطة، والسائق المناسب يستلمه ويكمله — مع إتمام آمن عبر رمز QR.
-              </p>
-              <p lang="en">
-                A mobile app linking anyone who needs a delivery (merchant or customer) with nearby drivers. Post a point-to-point request; the right driver accepts and completes it — with secure QR handoff.
-              </p>
-              <p style="margin-top: 0.85rem">
-                <a href="index.html">
-                  <span lang="ar">اقرأ الموجز الكامل ←</span>
-                  <span lang="en">Read the full overview →</span>
-                </a>
-              </p>
-            </div>
-          </div>
-        </aside>
-      </div>
     </main>
 
     <footer class="site-footer">
@@ -330,7 +229,11 @@
             <a href="terms.html" lang="en">Terms</a>
           </li>
           <li>
-            <a href="mailto:waslha.app@gmail.com">waslha.app@gmail.com</a>
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=waslha.app@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >waslha.app@gmail.com</a>
           </li>
         </ul>
       </div>
