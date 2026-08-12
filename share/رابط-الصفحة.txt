@@ -1,5 +1,3 @@
 وصلة — Waslha
-الصفحة الرئيسية:
-https://waslha.app/
-
-امسح صورة QR للدخول إلى الصفحة الرئيسية.
+الصفحة:
+https://waslha-k42w.vercel.app/

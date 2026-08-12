@@ -93,6 +93,23 @@ if ('IntersectionObserver' in window) {
   revealEls.forEach((el) => el.classList.add('is-visible'));
 }
 
+/* —— Open Gmail compose (desktop web / mobile app via mailto) —— */
+const CONTACT_EMAIL = 'waslha.app@gmail.com';
+const GMAIL_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&tf=cm&to=${encodeURIComponent(CONTACT_EMAIL)}`;
+
+document.querySelectorAll('[data-gmail-compose]').forEach((el) => {
+  el.addEventListener('click', (e) => {
+    const mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    if (mobile) {
+      // mailto opens Gmail/Mail compose on phones (web Gmail ignores compose params)
+      el.setAttribute('href', `mailto:${CONTACT_EMAIL}`);
+      return;
+    }
+    e.preventDefault();
+    window.open(GMAIL_COMPOSE, '_blank', 'noopener,noreferrer');
+  });
+});
+
 /* —— Hero StrokeText: Waslha writes on load —— */
 const strokeHost = document.querySelector('[data-stroke-text]');
 let destroyStroke = null;
